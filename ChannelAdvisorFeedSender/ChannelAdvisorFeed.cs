@@ -1,23 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TPGNotificationAndDataFeeds.Classes;
+using TPGNotificationAndDataFeeds.Classes.Models;
 
-namespace ChannelAdvisorFeedSender
+namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
-
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
-        }
-    }
     class ChannelAdvisorFeed
     {
         //PRICE+SHIP FEED        CODE: PRICESHIP
@@ -301,40 +294,40 @@ namespace ChannelAdvisorFeedSender
                 sb.Append("\"SKU\"," + "\"BRAND\"," + "\"CLASSIFICATION\"," + "\"DESCRIPTION\"," + "\"BULLET1\"," + "\"BULLET2\"," + "\"BULLET3\"," + "\"MANUFACTURER\"," + "\"MPN\"," +
                      "\"PARENTSKU\"," + "\"RELATIONSHIPNAME\"," + "\"INVENTORYSUBTITLE\"," + "\"TITLE\"," + "\"UPC\"," + "\"PICTUREURLS\"," +
                      "\"HEIGHT\"," + "\"LENGTH\"," + "\"WIDTH\"," + "\"SHIPPINGRESTRICTION\"," + "\"SIZE\"," + "\"SEARCHTERMS\"," +
-                     "\"GOOGLEMERCHCATEGORY\"," +
+                     "\"GOOGLEMERCHCATEGORY\"," + 
                      "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"SDSSHEET\"" + "\r\n");
                 foreach (ChannelAdvisorModel item in data)
                 {
-                    sb.Append(item.SKU.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.BRAND.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.CLASSIFICATION.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.DESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.BULLET1.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.BULLET2.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.BULLET3.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.MANUFACTURER.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.MPN.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.PARENTSKU.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.RELATIONSHIPNAME.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.INVENTORYSUBTITLE.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.TITLE.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.UPC.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.PICTUREURLS.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.HEIGHT.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.LENGTH.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.WIDTH.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.SHIPPINGRESTRICTION.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.SIZE.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.SEARCHTERMS.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.GOOGLEMERCHCATEGORY.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.FULLPRODURL.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.ISPARENT.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.PARENTCHILDDESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.METATITLE.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append(item.SKU.Replace(",","").Replace("\r\n", "") + ",");
+                    sb.Append( item.BRAND.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.CLASSIFICATION.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.DESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.BULLET1.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.BULLET2.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.BULLET3.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.MANUFACTURER.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.MPN.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.PARENTSKU.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.RELATIONSHIPNAME.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.INVENTORYSUBTITLE.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.TITLE.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.UPC.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.PICTUREURLS.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.HEIGHT.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.LENGTH.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.WIDTH.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.SHIPPINGRESTRICTION.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.SIZE.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.SEARCHTERMS.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.GOOGLEMERCHCATEGORY.Replace(",","").Replace("\r\n", "") + ",");
+                    sb.Append( item.FULLPRODURL.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.ISPARENT.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.PARENTCHILDDESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append( item.METATITLE.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.METADESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
-                    sb.Append(item.SDSSHEET.Replace(",", "").Replace("\r\n", ""));
+                    sb.Append( item.SDSSHEET.Replace(",", "").Replace("\r\n", ""));
                     sb.Append("\r\n");
-
+                    
                 }
 
                 WriteToFile.WriteTextToFile("{0} Creating file");
