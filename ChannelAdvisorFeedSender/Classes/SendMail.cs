@@ -8,10 +8,11 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TPGNotificationAndDataFeeds.Classes
+namespace ChannelAdvisorFeedSender.Classes
 {
     public class SendEmail
     {
+        public static object ConfigurationManager { get; private set; }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
@@ -26,9 +27,9 @@ namespace TPGNotificationAndDataFeeds.Classes
 
         public static void Send(string subject, string emailbody, string to, bool attach = false, string cc = "", string cc2 = "")
         {
-            string path = "C:\\TPGServiceLogs\\Log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
+            string path = "C:\\ChannelAdvisorFeedSender\\Log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
 
-            if (ConfigurationManager.AppSettings["SendEmail"] == "true")
+            if (true)
             {
                 //create instance of MailMessage class and set the default from:
                 MailMessage message = new MailMessage();

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ChannelAdvisorFeedSender.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConnectionStringSalesPad" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Server=TPGSQL01;Database=TPG;User ID=user_rbin;Password=un3dRB!n</Value>
+    </Setting>
+    <Setting Name="ChannelAdvisorCredentials" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ftp.channeladvisor.com;thepon:joe@thepondguy.com;pondLAKE*76</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

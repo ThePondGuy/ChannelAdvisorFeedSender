@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using TPGNotificationAndDataFeeds.Properties;
+using ChannelAdvisorFeedSender.Properties;
 using WinSCP;
 
-namespace TPGNotificationAndDataFeeds.Classes
+namespace ChannelAdvisorFeedSender.Classes
 {
     class FTP
     {
@@ -131,16 +131,7 @@ namespace TPGNotificationAndDataFeeds.Classes
             string[] creds = new string[3];
             switch (account)
             {
-                case "PowerReviews":
-                    creds = Settings.Default.PowerReviews.Split(';');
-                    break;
-                case "ROI":
-                    creds = Settings.Default.ROI.Split(';');
-                    break;
-                case "SLI":
-                    creds = Settings.Default.SLICredentials.Split(';');
-                    break;
-                case "ChannelAdvisor":
+                               case "ChannelAdvisor":
                     creds = Settings.Default.ChannelAdvisorCredentials.Split(';');
                     break;
             }

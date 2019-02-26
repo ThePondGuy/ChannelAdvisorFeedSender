@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TPGNotificationAndDataFeeds.Classes;
-using TPGNotificationAndDataFeeds.Classes.Models;
+using ChannelAdvisorFeedSender.Classes;
+using ChannelAdvisorFeedSender.Classes.Models;
 
-namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
+namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
 {
     class ChannelAdvisorFeed
     {
@@ -78,7 +78,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
                 }
 
                 WriteToFile.WriteTextToFile("{0} Creating file");
-                StreamWriter Excel = new StreamWriter("C:\\TPGServiceLogs" + "\\PRICE+SHIP FEED.PRICESHIP.csv");
+                StreamWriter Excel = new StreamWriter("C:\\ChannelAdvisorFeedSender" + "\\PRICE+SHIP FEED.PRICESHIP.csv");
                 Excel.WriteLine(sb.ToString());
                 Excel.Close();
             }
@@ -92,7 +92,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             WriteToFile.WriteTextToFile("{0} FTP File Started");
             try
             {
-                FTP.SendFTP("C:\\TPGServiceLogs\\", "PRICE+SHIP FEED.PRICESHIP.csv", "Inventory/Transform/", "ChannelAdvisor");
+                FTP.SendFTP("C:\\ChannelAdvisorFeedSender\\", "PRICE+SHIP FEED.PRICESHIP.csv", "Inventory/Transform/", "ChannelAdvisor");
             }
             catch (Exception ex)
             {
@@ -106,14 +106,14 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             {
 
                 string newFileName = "";
-                if (File.Exists("C:\\TPGServiceLogs\\PRICE+SHIP FEED.PRICESHIP.csv"))
+                if (File.Exists("C:\\ChannelAdvisorFeedSender\\PRICE+SHIP FEED.PRICESHIP.csv"))
                 {
-                    if (!Directory.Exists("C:\\TPGServiceLogs\\archiveChannelAdvisor"))
+                    if (!Directory.Exists("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor"))
                     {
-                        Directory.CreateDirectory("C:\\TPGServiceLogs\\archiveChannelAdvisor");
+                        Directory.CreateDirectory("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor");
                     }
                     newFileName = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + "_PRICE+SHIP FEED.PRICESHIP.csv";
-                    File.Move("C:\\TPGServiceLogs\\PRICE+SHIP FEED.PRICESHIP.csv", "C:\\TPGServiceLogs\\archiveChannelAdvisor\\" + newFileName);
+                    File.Move("C:\\ChannelAdvisorFeedSender\\PRICE+SHIP FEED.PRICESHIP.csv", "C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor\\" + newFileName);
                 }
 
                 WriteToFile.WriteTextToFile("{0} Moved file: " + newFileName);
@@ -177,7 +177,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
                 }
 
                 WriteToFile.WriteTextToFile("{0} Creating file");
-                StreamWriter Excel = new StreamWriter("C:\\TPGServiceLogs" + "\\INVENTORY FEED.QTYFEED.csv");
+                StreamWriter Excel = new StreamWriter("C:\\ChannelAdvisorFeedSender" + "\\INVENTORY FEED.QTYFEED.csv");
                 Excel.WriteLine(sb.ToString());
                 Excel.Close();
             }
@@ -191,7 +191,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             WriteToFile.WriteTextToFile("{0} FTP File Started");
             try
             {
-                FTP.SendFTP("C:\\TPGServiceLogs\\", "INVENTORY FEED.QTYFEED.csv", "Inventory/Transform/", "ChannelAdvisor");
+                FTP.SendFTP("C:\\ChannelAdvisorFeedSender\\", "INVENTORY FEED.QTYFEED.csv", "Inventory/Transform/", "ChannelAdvisor");
             }
             catch (Exception ex)
             {
@@ -205,14 +205,14 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             {
 
                 string newFileName = "";
-                if (File.Exists("C:\\TPGServiceLogs\\INVENTORY FEED.QTYFEED.csv"))
+                if (File.Exists("C:\\ChannelAdvisorFeedSender\\INVENTORY FEED.QTYFEED.csv"))
                 {
-                    if (!Directory.Exists("C:\\TPGServiceLogs\\archiveChannelAdvisor"))
+                    if (!Directory.Exists("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor"))
                     {
-                        Directory.CreateDirectory("C:\\TPGServiceLogs\\archiveChannelAdvisor");
+                        Directory.CreateDirectory("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor");
                     }
                     newFileName = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + "_INVENTORY FEED.QTYFEED.csv";
-                    File.Move("C:\\TPGServiceLogs\\INVENTORY FEED.QTYFEED.csv", "C:\\TPGServiceLogs\\archiveChannelAdvisor\\" + newFileName);
+                    File.Move("C:\\ChannelAdvisorFeedSender\\INVENTORY FEED.QTYFEED.csv", "C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor\\" + newFileName);
                 }
 
                 WriteToFile.WriteTextToFile("{0} Moved file: " + newFileName);
@@ -331,7 +331,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
                 }
 
                 WriteToFile.WriteTextToFile("{0} Creating file");
-                StreamWriter Excel = new StreamWriter("C:\\TPGServiceLogs" + "\\MAIN DATA FEEDS(ALL).MAINDATA.csv");
+                StreamWriter Excel = new StreamWriter("C:\\ChannelAdvisorFeedSender" + "\\MAIN DATA FEEDS(ALL).MAINDATA.csv");
                 Excel.WriteLine(sb.ToString());
                 Excel.Close();
             }
@@ -345,7 +345,7 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             WriteToFile.WriteTextToFile("{0} FTP File Started");
             try
             {
-                FTP.SendFTP("C:\\TPGServiceLogs\\", "MAIN DATA FEEDS(ALL).MAINDATA.csv", "Inventory/Transform/", "ChannelAdvisor");
+                FTP.SendFTP("C:\\ChannelAdvisorFeedSender\\", "MAIN DATA FEEDS(ALL).MAINDATA.csv", "Inventory/Transform/", "ChannelAdvisor");
             }
             catch (Exception ex)
             {
@@ -359,14 +359,14 @@ namespace TPGNotificationAndDataFeeds.Functions.Data_Feeds
             {
 
                 string newFileName = "";
-                if (File.Exists("C:\\TPGServiceLogs\\MAIN DATA FEEDS(ALL).MAINDATA.csv"))
+                if (File.Exists("C:\\ChannelAdvisorFeedSender\\MAIN DATA FEEDS(ALL).MAINDATA.csv"))
                 {
-                    if (!Directory.Exists("C:\\TPGServiceLogs\\archiveChannelAdvisor"))
+                    if (!Directory.Exists("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor"))
                     {
-                        Directory.CreateDirectory("C:\\TPGServiceLogs\\archiveChannelAdvisor");
+                        Directory.CreateDirectory("C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor");
                     }
                     newFileName = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + "_MAIN DATA FEEDS(ALL).MAINDATA.csv";
-                    File.Move("C:\\TPGServiceLogs\\MAIN DATA FEEDS(ALL).MAINDATA.csv", "C:\\TPGServiceLogs\\archiveChannelAdvisor\\" + newFileName);
+                    File.Move("C:\\ChannelAdvisorFeedSender\\MAIN DATA FEEDS(ALL).MAINDATA.csv", "C:\\ChannelAdvisorFeedSender\\archiveChannelAdvisor\\" + newFileName);
                 }
 
                 WriteToFile.WriteTextToFile("{0} Moved file: " + newFileName);

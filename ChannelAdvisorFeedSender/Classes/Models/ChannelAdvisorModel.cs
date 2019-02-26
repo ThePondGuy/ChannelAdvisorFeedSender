@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TPGNotificationAndDataFeeds.Classes.Models
+﻿namespace ChannelAdvisorFeedSender.Classes.Models
 {
     class ChannelAdvisorModel
     {
 
-       //price ship
+        //price ship
         public string Item_Number { get; set; }
         public string Current_Cost { get; set; }
         public string lowestPrice { get; set; }
