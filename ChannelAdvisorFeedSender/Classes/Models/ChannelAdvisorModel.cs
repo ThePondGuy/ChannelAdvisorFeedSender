@@ -42,7 +42,7 @@
         public string PARENTCHILDDESCRIPTION { get; set; }
         public string METATITLE { get; set; }
         public string METADESCRIPTION { get; set; }
-
+        public string STRATEGYMAPP { get; set; }
         public string BULLET1 { get; set; }
         public string BULLET2 { get; set; }
         public string BULLET3 { get; set; }
