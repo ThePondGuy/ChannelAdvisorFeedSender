@@ -47,5 +47,8 @@
         public string BULLET2 { get; set; }
         public string BULLET3 { get; set; }
         public string SDSSHEET { get; set; }
+        public string AVERAGESTARS { get; set; }
+        public string COUNTOFRATINGS { get; set; }
+
     }
 }

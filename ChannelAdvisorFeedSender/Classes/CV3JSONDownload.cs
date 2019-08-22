@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ChannelAdvisorFeedSender.Classes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace ChannelAdvisorFeedSender.Classes
         public bool ProductDownload()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; //TLS 1.2
-            Console.WriteLine(" Downloading Product Data");
+            Console.WriteLine("Downloading Product Data");
             string path = "C:\\TPGServiceLogs";
             var ws = new CV3.CV3DataxsdPortTypeClient();
             string strXML = "";
@@ -31,9 +32,9 @@ namespace ChannelAdvisorFeedSender.Classes
             }
 
 
-            //Console.WriteLine(" UserName: " + UserName);
-            //Console.WriteLine(" Password: " + Password);
-            //Console.WriteLine(" ServiceID: " + ServiceID);
+            //Console.WriteLine("UserName: " + UserName);
+            //Console.WriteLine("Password: " + Password);
+            //Console.WriteLine("ServiceID: " + ServiceID);
 
             try
             {
@@ -61,10 +62,10 @@ namespace ChannelAdvisorFeedSender.Classes
                 //byte[] bData = new byte[str64.Length + 1];
                 //bData = System.Text.Encoding.ASCII.GetBytes(str64);
 
-                Console.WriteLine(" Sending Request to CV3");
+                Console.WriteLine("Sending Request to CV3");
                 byte[] b = ws.CV3Data(str64);
 
-                Console.WriteLine(" Creating JSON File");
+                Console.WriteLine("Creating JSON File");
                 if (File.Exists(path + "\\Products.json"))
                 {
                     if (!Directory.Exists(path + "\\archiveJSON"))
@@ -83,12 +84,12 @@ namespace ChannelAdvisorFeedSender.Classes
 
                 if (b.Length < 1000)
                 {
-                    Console.WriteLine(" Failed to connect to CV3");
+                    Console.WriteLine("Failed to connect to CV3");
                     SendEmail.Send("CV3 Connection Failed", "Unable to download CV3 Products.  Reason: No Data.  It is likely that the API Password Expired. The password for the connector must match the one in CV3, it can be set in the Connector Store Configuration.", "itdevelopment@thepondguy.com", false);
                     return false;
                 }
 
-                Console.WriteLine(" Uploading Product inforamtion to Database");
+                Console.WriteLine("Uploading Product inforamtion to Database");
                 if (!ParseFileToDB(path + "\\" + "Products.json", "Products"))
                 {
                     SendEmail.Send("Error parsing Product Web data", "", "twilson@thepondguy.com");
@@ -108,7 +109,8 @@ namespace ChannelAdvisorFeedSender.Classes
         }
         public bool CategoryDownload()
         {
-            Console.WriteLine(" Downloading Category Data");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; //TLS 1.2
+            Console.WriteLine("Downloading Category Data");
             string path = "C:\\TPGServiceLogs";
             var ws = new CV3.CV3DataxsdPortTypeClient();
             string strXML = "";
@@ -149,10 +151,10 @@ namespace ChannelAdvisorFeedSender.Classes
                 //bData = System.Text.Encoding.ASCII.GetBytes(str64);
 
 
-                Console.WriteLine(" Sending Request to CV3");
+                Console.WriteLine("Sending Request to CV3");
                 byte[] b = ws.CV3Data(str64);
 
-                Console.WriteLine(" Creating JSON File");
+                Console.WriteLine("Creating JSON File");
                 if (File.Exists(path + "\\Categories.json"))
                 {
                     if (!Directory.Exists(path + "\\archiveJSON"))
@@ -167,12 +169,12 @@ namespace ChannelAdvisorFeedSender.Classes
 
                 if (b.Length < 1000)
                 {
-                    Console.WriteLine(" Failed to connect to CV3");
+                    Console.WriteLine("Failed to connect to CV3");
                     SendEmail.Send("CV3 Connection Failed", "Unable to download CV3 Categories.  Reason: No Data.  It is likely that the API Password Expired. The password for the connector must match the one in CV3, it can be set in the Connector Store Configuration.", "itdevelopment@thepondguy.com", false);
                     return false;
                 }
 
-                Console.WriteLine(" Uploading Categories inforamtion to Database");
+                Console.WriteLine("Uploading Categories inforamtion to Database");
                 if (!ParseFileToDB(path + "\\" + "Categories.json", "Categories"))
                 {
                     SendEmail.Send("Error parsing Category Web data", "", "twilson@thepondguy.com");
@@ -239,6 +241,11 @@ namespace ChannelAdvisorFeedSender.Classes
 
                         foreach (dynamic item in array.CV3Data.products)
                         {
+                            if (Convert.ToBoolean(item.Value._inactive))
+                            {
+                                continue;
+                            }
+
                             itemIndex++;
 
 
@@ -258,6 +265,12 @@ namespace ChannelAdvisorFeedSender.Classes
 
                             string ParentSKU = (item.Value.SKU != null) ? item.Value.SKU.ToString() : "";
 
+                            //if(item.Value.SKU == "article-pl-001")
+                            //{
+                            //    string error = "";
+                            //}
+
+
                             //web products
                             wp._allow_fractional_qty = Convert.ToBoolean(item.Value._allow_fractional_qty);
                             wp._comparable = Convert.ToBoolean(item.Value._comparable);
@@ -274,7 +287,14 @@ namespace ChannelAdvisorFeedSender.Classes
                             wp._text_field = Convert.ToBoolean(item.Value._text_field);
 
                             wp.Brand = (item.Value.Brand != null) ? item.Value.Brand.ToString() : "";
-                            wp.DescriptionHeader = (item.Value.DescriptionHeader != null) ? item.Value.DescriptionHeader.ToString() : "";
+                            if (Convert.ToBoolean(item.Value._content_only))
+                            {
+                                wp.DescriptionHeader = (item.Value.Description != null) ? item.Value.Description.ToString() : "";
+                            }
+                            else
+                            {
+                                wp.DescriptionHeader = (item.Value.DescriptionHeader != null) ? item.Value.DescriptionHeader.ToString() : "";
+                            }
                             wp.Manufacturer = (item.Value.Manufacturer != null) ? item.Value.Manufacturer.ToString() : "";
                             wp.Name = (item.Value.Name != null) ? item.Value.Name.ToString() : "";
                             wp.ProdID = (item.Value.ProdID != null) ? item.Value.ProdID.ToString() : "";
@@ -540,6 +560,8 @@ namespace ChannelAdvisorFeedSender.Classes
 
                                 foreach (dynamic _SubProducts in item.Value.SubProducts)
                                 {
+                                    
+
                                     SubProducts sp = new SubProducts();
                                     if (indexCountSubProducts == 1)
                                     {
@@ -548,7 +570,10 @@ namespace ChannelAdvisorFeedSender.Classes
                                     else
                                     {
 
-
+                                        if (Convert.ToBoolean(_SubProducts.Value._inactive))
+                                        {
+                                            continue;
+                                        }
                                         InventoryControl icSub = new InventoryControl();
                                         QuantityRestrictions qrSub = new QuantityRestrictions();
                                         Weight wSub = new Weight();
@@ -817,12 +842,12 @@ namespace ChannelAdvisorFeedSender.Classes
         }
         private void BulkSaveListToDatabase<T>(List<T> list, string storedProc)
         {
-            Console.WriteLine(" Writing Data to: " + storedProc);
+            Console.WriteLine("Writing Data to: " + storedProc);
             string sClassType = typeof(T).ToString();
             try
             {
-                Console.WriteLine(" Rows to write back:" + list.Count);
-                Console.WriteLine(" sClassType: " + sClassType);
+                Console.WriteLine("Rows to write back:" + list.Count);
+                Console.WriteLine("sClassType: " + sClassType);
                 foreach (var item in list)
                 {
                     using (SqlConnection con = new SqlConnection(ConnectionStrings.SalesPad))
@@ -1031,7 +1056,7 @@ namespace ChannelAdvisorFeedSender.Classes
                     }
 
                 }
-                Console.WriteLine(" " + sClassType + " Successful");
+                Console.WriteLine("" + sClassType + " Successful");
             }
             catch (Exception ex)
             {

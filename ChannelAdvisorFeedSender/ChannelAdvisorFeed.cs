@@ -273,7 +273,10 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                         Details.PARENTCHILDDESCRIPTION = rdr["PARENTCHILDDESCRIPTION"].ToString();
                         Details.METATITLE = rdr["METATITLE"].ToString();
                         Details.METADESCRIPTION = rdr["METADESCRIPTION"].ToString();
+
                         Details.SDSSHEET = rdr["SDSSHEET"].ToString();
+                        Details.AVERAGESTARS = rdr["AVERAGESTARS"].ToString();
+                        Details.COUNTOFRATINGS = rdr["COUNTOFRATINGS"].ToString();
                         data.Add(Details);
                     }
                 }
@@ -295,7 +298,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                      "\"PARENTSKU\"," + "\"RELATIONSHIPNAME\"," + "\"INVENTORYSUBTITLE\"," + "\"TITLE\"," + "\"UPC\"," + "\"PICTUREURLS\"," +
                      "\"HEIGHT\"," + "\"LENGTH\"," + "\"WIDTH\"," + "\"SHIPPINGRESTRICTION\"," + "\"SIZE\"," + "\"SEARCHTERMS\"," +
                      "\"GOOGLEMERCHCATEGORY\"," + 
-                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"SDSSHEET\"" + "\r\n");
+                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"AVERAGESTARS\"," + "\"COUNTOFRATINGS\"," + "\"SDSSHEET\"" + "\r\n");
                 foreach (ChannelAdvisorModel item in data)
                 {
                     sb.Append(item.SKU.Replace(",","").Replace("\r\n", "") + ",");
@@ -325,6 +328,8 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                     sb.Append( item.PARENTCHILDDESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append( item.METATITLE.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.METADESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append(item.AVERAGESTARS.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append(item.COUNTOFRATINGS.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append( item.SDSSHEET.Replace(",", "").Replace("\r\n", ""));
                     sb.Append("\r\n");
                     
