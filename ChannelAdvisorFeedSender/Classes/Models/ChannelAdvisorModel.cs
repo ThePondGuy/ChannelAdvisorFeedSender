@@ -49,6 +49,7 @@
         public string SDSSHEET { get; set; }
         public string AVERAGESTARS { get; set; }
         public string COUNTOFRATINGS { get; set; }
+        public string ALLCATEGORIES { get; set; }
 
     }
 }

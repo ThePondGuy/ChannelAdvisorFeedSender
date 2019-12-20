@@ -420,10 +420,26 @@ namespace ChannelAdvisorFeedSender.Classes
                             //Category
                             if (item.Value.Categories != null)
                             {
-                                cat.SKU = ParentSKU;
-                                cat._replacing_existing = Convert.ToBoolean(item.Value.Categories._replacing_existing);
-                                cat.Category = (item.Value.Categories.Category != null) ? item.Value.Categories.Category.ToString() : "";
-                                catList.Add(cat);
+                                int indexCountCat = 1;
+                                bool _replacing_existingCat = false;
+                                foreach (dynamic _Cat in item.Value.Categories)
+                                {
+                                    Categories i = new Categories();
+                                    if (indexCountCat == 1)
+                                    {
+                                        _replacing_existingCat = Convert.ToBoolean(item.Value._replacing_existing);
+                                    }
+                                    else
+                                    {
+                                        i.SKU = ParentSKU;
+                                        i._replacing_existing = _replacing_existingCat;
+                                        i.Category = (_Cat.Value != null) ? _Cat.Value.ToString() : "";
+
+                                        catList.Add(i);
+                                    }
+                                    indexCountCat++;
+                                }
+
                             }
                             ////Custom
                             if (item.Value.Custom != null)

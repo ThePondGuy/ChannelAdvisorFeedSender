@@ -16,6 +16,7 @@ namespace ChannelAdvisorFeedSender
             Console.WriteLine("Qty Only Feed - 2");
             Console.WriteLine("Price Ship Feed - 3");
             Console.WriteLine("CV3 Inventory Download - 4");
+            Console.WriteLine("Is Marketplace UDF Check - 5");
 
             string input = Console.ReadLine();
             Console.WriteLine("Processing... Please Wait...");
@@ -86,6 +87,17 @@ namespace ChannelAdvisorFeedSender
                             Console.WriteLine("CV3 Download Complete!");
                         }
                         
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    break;
+                case "5":
+                    try
+                    {
+                        ca.IsMarketPlaceCheck();
+                        Console.WriteLine("Is marketplace UDF's checked!");
                     }
                     catch (Exception ex)
                     {

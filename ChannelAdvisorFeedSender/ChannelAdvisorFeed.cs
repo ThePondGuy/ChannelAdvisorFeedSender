@@ -278,6 +278,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                         Details.SDSSHEET = rdr["SDSSHEET"].ToString();
                         Details.AVERAGESTARS = rdr["AVERAGESTARS"].ToString();
                         Details.COUNTOFRATINGS = rdr["COUNTOFRATINGS"].ToString();
+                        Details.ALLCATEGORIES = rdr["ALLCATEGORIES"].ToString();
                         data.Add(Details);
                     }
                 }
@@ -299,7 +300,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                      "\"PARENTSKU\"," + "\"RELATIONSHIPNAME\"," + "\"INVENTORYSUBTITLE\"," + "\"TITLE\"," + "\"UPC\"," + "\"PICTUREURLS\"," +
                      "\"HEIGHT\"," + "\"LENGTH\"," + "\"WIDTH\"," + "\"SHIPPINGRESTRICTION\"," + "\"SIZE\"," + "\"SEARCHTERMS\"," +
                      "\"GOOGLEMERCHCATEGORY\"," + 
-                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"AVERAGESTARS\"," + "\"COUNTOFRATINGS\"," + "\"SDSSHEET\"" + "\r\n");
+                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"AVERAGESTARS\"," + "\"COUNTOFRATINGS\"," + "\"ALLCATEGORIES\"," + "\"SDSSHEET\"" + "\r\n");
                 foreach (ChannelAdvisorModel item in data)
                 {
                     sb.Append(item.SKU.Replace(",","").Replace("\r\n", "") + ",");
@@ -331,6 +332,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                     sb.Append(item.METADESCRIPTION.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.AVERAGESTARS.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.COUNTOFRATINGS.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append(item.ALLCATEGORIES.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append( item.SDSSHEET.Replace(",", "").Replace("\r\n", ""));
                     sb.Append("\r\n");
                     
@@ -385,5 +387,31 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
 
             return "{0} QueuePowerReviewsFullInventoryData Completed";
         }
+
+        public string IsMarketPlaceCheck()
+        {
+            WriteToFile.WriteTextToFile("{0} IsMarketPlaceCheck Started");
+           
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionStrings.SalesPad))
+                {
+
+                    SqlCommand cmd = new SqlCommand("spcpMarkIsMarketplaces", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                WriteToFile.WriteTextToFile("Exception: " + ex.Message);
+                SendEmail.Send("IsMarketPlaceCheck: gather data", ex.Message, "itdevelopment@thepondguy.com", false);
+            }
+
+            return "{0} IsMarketPlaceCheck Completed";
+        }
+        
     }
 }
