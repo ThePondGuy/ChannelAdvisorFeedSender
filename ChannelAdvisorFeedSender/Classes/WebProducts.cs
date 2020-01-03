@@ -98,6 +98,14 @@ namespace ChannelAdvisorFeedSender.Classes
         public string Type { get; set; }
         public string Link { get; set; }
     }
+    class CategoryFilters
+    {
+        public string SKU { get; set; }
+        public string FilterIndex { get; set; }
+        public string Filter { get; set; }
+        public string Value { get; set; }
+        public string SortValue { get; set; }
+    }
     class InventoryControl
     {
         public string SKU { get; set; }

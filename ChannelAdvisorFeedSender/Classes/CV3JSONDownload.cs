@@ -199,6 +199,7 @@ namespace ChannelAdvisorFeedSender.Classes
             List<Categories> catList = new List<Categories>();
             List<Custom> cList = new List<Custom>();
             List<Images> iList = new List<Images>();
+            List<CategoryFilters> cfList = new List<CategoryFilters>();
             List<InventoryControl> icList = new List<InventoryControl>();
             List<Meta> mList = new List<Meta>();
             List<QuantityRestrictions> qrList = new List<QuantityRestrictions>();
@@ -351,68 +352,7 @@ namespace ChannelAdvisorFeedSender.Classes
                                             apsbu.ShipWeight = (_AttributesProduct.ShipWeight != null) ? _AttributesProduct.ShipWeight.ToString() : "";
                                             apListA.Add(apsbu);
 
-                                            //////Combination
-                                            //if (_AttributesProduct.Value.Custom != null)
-                                            //{
-                                            //    foreach (dynamic _Custom in _SubProducts.Value.Custom)
-                                            //    {
-                                            //        Custom cSub = new Custom();
-                                            //        cSub.SKU = SubSKU;
-                                            //        cSub._id = (_Custom.Value._id != null) ? _Custom.Value._id.ToString() : "";
-                                            //        cSub._content = (_Custom.Value.content != null) ? _Custom.Value.content.ToString() : "";
-                                            //        cListSub.Add(cSub);
-                                            //    }
-                                            //}
-                                            //////Codes
-                                            //if (_SubProducts.Value.Custom != null)
-                                            //{
-                                            //    foreach (dynamic _Custom in _SubProducts.Value.Custom)
-                                            //    {
-                                            //        Custom cSub = new Custom();
-                                            //        cSub.SKU = SubSKU;
-                                            //        cSub._id = (_Custom.Value._id != null) ? _Custom.Value._id.ToString() : "";
-                                            //        cSub._content = (_Custom.Value.content != null) ? _Custom.Value.content.ToString() : "";
-                                            //        cListSub.Add(cSub);
-                                            //    }
-                                            //}
-
-                                            ////InventoryControl
-                                            //if (_SubProducts.Value.InventoryControl != null)
-                                            //{
-                                            //    icSub.SKU = SubSKU;
-                                            //    icSub._ignore_backorder = Convert.ToBoolean(_SubProducts.Value.InventoryControl._ignore_backorder);
-                                            //    icSub._inventory_control_exempt = Convert.ToBoolean(_SubProducts.Value.InventoryControl._inventory_control_exempt);
-                                            //    icSub.Inventory = (_SubProducts.Value.InventoryControl.Inventory != null) ? _SubProducts.Value.InventoryControl.Inventory.ToString() : "";
-                                            //    icSub.OnOrder = (_SubProducts.Value.InventoryControl.OnOrder != null) ? _SubProducts.Value.InventoryControl.OnOrder.ToString() : "";
-                                            //    icSub.OutOfStockPoint = (_SubProducts.Value.InventoryControl.OutOfStockPoint != null) ? _SubProducts.Value.InventoryControl.OutOfStockPoint.ToString() : "";
-                                            //    icSub.Status = (_SubProducts.Value.InventoryControl.Status != null) ? _SubProducts.Value.InventoryControl.Status.ToString() : "";
-                                            //    icListSub.Add(icSub);
-                                            //}
-                                            //////Retail
-                                            //if (_SubProducts.Value.Retail != null)
-                                            //{
-                                            //    int indexCountRetail = 1;
-                                            //    foreach (dynamic _Retail in _SubProducts.Value.Retail)
-                                            //    {
-                                            //        Retail rSub = new Retail();
-                                            //        if (indexCountRetail == 1)
-                                            //        {
-
-                                            //        }
-                                            //        else
-                                            //        {
-                                            //            rSub.SKU = SubSKU;
-                                            //            rSub._active = Convert.ToBoolean(item.Value.Retail._active);
-                                            //            rSub._price_category = (_Retail.Value._price_category != null) ? _Retail.Value._price_category.ToString() : "";
-                                            //            rSub.SpecialPrice = (_Retail.Value.SpecialPrice != null) ? _Retail.Value.SpecialPrice.ToString() : "";
-                                            //            rSub.StandardPrice = (_Retail.Value.StandardPrice != null) ? _Retail.Value.StandardPrice.ToString() : "";
-                                            //            rList.Add(rSub);
-                                            //        }
-                                            //        indexCountRetail++;
-                                            //    }
-
-
-                                            //}
+                                           
                                         }
                                     }
                                 }
@@ -546,6 +486,27 @@ namespace ChannelAdvisorFeedSender.Classes
                                 ap.SKU = ParentSKU;
                                 ap.AdditionalSKUs = (item.Value.AdditionalProducts.SKU != null) ? item.Value.AdditionalProducts.SKU.ToString() : "";
                                 apList.Add(ap);
+                            }
+
+                            ////CategoryFilters
+                            if (item.Value.CategoryFilters != null)
+                            {
+                                int filterIdx = 0;
+                                foreach (dynamic _CategoryFilters in item.Value.CategoryFilters)
+                                {
+                                    CategoryFilters i = new CategoryFilters();
+
+                                    i.SKU = ParentSKU;
+                                    i.FilterIndex = filterIdx.ToString();
+                                    i.Filter = (_CategoryFilters.Value.Filter != null) ? _CategoryFilters.Value.Filter.ToString() : "";
+                                    i.Value = (_CategoryFilters.Value.Value != null) ? _CategoryFilters.Value.Value.ToString() : "";
+                                    i.SortValue = (_CategoryFilters.Value.SortValue != null) ? _CategoryFilters.Value.SortValue.ToString() : "";
+
+
+                                    cfList.Add(i);
+
+                                    filterIdx++;
+                                }
                             }
 
                             ////Weight
@@ -818,6 +779,7 @@ namespace ChannelAdvisorFeedSender.Classes
                     BulkSaveListToDatabase(apListA, "spcpNDFSaveAttributesProducts");
                     //Parent
                     BulkSaveListToDatabase(wpList, "spcpNDFSaveWebProducts");
+                    BulkSaveListToDatabase(cfList, "spcpNDFSaveCategoryFilters");
                     BulkSaveListToDatabase(catList, "spcpNDFSaveCategories");
                     BulkSaveListToDatabase(cList, "spcpNDFSaveCustom");
                     BulkSaveListToDatabase(iList, "spcpNDFSaveImages");
@@ -871,6 +833,14 @@ namespace ChannelAdvisorFeedSender.Classes
                         SqlCommand cmd = new SqlCommand(storedProc, con);
                         switch (sClassType.Trim())
                         {
+                            case "ChannelAdvisorFeedSender.Classes.CategoryFilters":
+                                CategoryFilters itemConvertedCategoryFilters = (CategoryFilters)Convert.ChangeType(item, typeof(CategoryFilters));
+                                cmd.Parameters.AddWithValue("@SKU", itemConvertedCategoryFilters.SKU);
+                                cmd.Parameters.AddWithValue("@FilterIndex", itemConvertedCategoryFilters.FilterIndex);
+                                cmd.Parameters.AddWithValue("@Filter", itemConvertedCategoryFilters.Filter);
+                                cmd.Parameters.AddWithValue("@Value", itemConvertedCategoryFilters.Value);
+                                cmd.Parameters.AddWithValue("@SortValue", itemConvertedCategoryFilters.SortValue);
+                                break;
                             case "ChannelAdvisorFeedSender.Classes.WebProducts":
                                 WebProducts itemConverted = (WebProducts)Convert.ChangeType(item, typeof(WebProducts));
                                 cmd.Parameters.AddWithValue("@_allow_fractional_qty", itemConverted._allow_fractional_qty);
