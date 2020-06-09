@@ -50,6 +50,7 @@
         public string AVERAGESTARS { get; set; }
         public string COUNTOFRATINGS { get; set; }
         public string ALLCATEGORIES { get; set; }
+        public string LOWCHILDPRICE { get; set; }
 
     }
 }

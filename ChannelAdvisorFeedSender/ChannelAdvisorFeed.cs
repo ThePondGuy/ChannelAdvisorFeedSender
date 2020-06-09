@@ -279,6 +279,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                         Details.AVERAGESTARS = rdr["AVERAGESTARS"].ToString();
                         Details.COUNTOFRATINGS = rdr["COUNTOFRATINGS"].ToString();
                         Details.ALLCATEGORIES = rdr["ALLCATEGORIES"].ToString();
+                        Details.LOWCHILDPRICE = rdr["LOWCHILDPRICE"].ToString();
                         data.Add(Details);
                     }
                 }
@@ -299,8 +300,8 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                 sb.Append("\"SKU\"," + "\"BRAND\"," + "\"CLASSIFICATION\"," + "\"DESCRIPTION\"," + "\"BULLET1\"," + "\"BULLET2\"," + "\"BULLET3\"," + "\"MANUFACTURER\"," + "\"MPN\"," +
                      "\"PARENTSKU\"," + "\"RELATIONSHIPNAME\"," + "\"INVENTORYSUBTITLE\"," + "\"TITLE\"," + "\"UPC\"," + "\"PICTUREURLS\"," +
                      "\"HEIGHT\"," + "\"LENGTH\"," + "\"WIDTH\"," + "\"SHIPPINGRESTRICTION\"," + "\"SIZE\"," + "\"SEARCHTERMS\"," +
-                     "\"GOOGLEMERCHCATEGORY\"," + 
-                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"AVERAGESTARS\"," + "\"COUNTOFRATINGS\"," + "\"ALLCATEGORIES\"," + "\"SDSSHEET\"" + "\r\n");
+                     "\"GOOGLEMERCHCATEGORY\"," +
+                     "\"FULLPRODURL\"," + "\"ISPARENT\"," + "\"PARENTCHILDDESCRIPTION\"," + "\"METATITLE\"," + "\"METADESCRIPTION\"," + "\"AVERAGESTARS\"," + "\"COUNTOFRATINGS\"," + "\"ALLCATEGORIES\"," + "\"LOWCHILDPRICE\"," + "\"SDSSHEET\"" + "\r\n");
                 foreach (ChannelAdvisorModel item in data)
                 {
                     sb.Append(item.SKU.Replace(",","").Replace("\r\n", "") + ",");
@@ -333,6 +334,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                     sb.Append(item.AVERAGESTARS.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.COUNTOFRATINGS.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append(item.ALLCATEGORIES.Replace(",", "").Replace("\r\n", "") + ",");
+                    sb.Append(item.LOWCHILDPRICE.Replace(",", "").Replace("\r\n", "") + ",");
                     sb.Append( item.SDSSHEET.Replace(",", "").Replace("\r\n", ""));
                     sb.Append("\r\n");
                     
