@@ -51,6 +51,6 @@
         public string COUNTOFRATINGS { get; set; }
         public string ALLCATEGORIES { get; set; }
         public string LOWCHILDPRICE { get; set; }
-
+        public string EXPECTEDDATE { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                         Details.xAddtionalHandling = rdr["ADDTIONALHANDLING"].ToString();
                         Details.DropShip = Convert.ToBoolean(rdr["DROPSHIP"]);
                         Details.STRATEGYMAPP = rdr["STRATEGYMAPP"].ToString();
-
+                        Details.EXPECTEDDATE = rdr["EXPECTEDDATE"].ToString();
                         data.Add(Details);
                     }
                 }
@@ -63,7 +63,7 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
             try
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("\"SKU\"," + "\"COGS\"," + "\"MINIMUMPRICE\"," + "\"AVAILABILITYCODE\"," + "\"WEIGHT\"," + "\"SHIPPINGMETHOD\"," + "\"ADDTIONALHANDLING\"," + "\"STRATEGYMAPP\"," + "\"DROPSHIP\"" + "\r\n");
+                sb.Append("\"SKU\"," + "\"COGS\"," + "\"MINIMUMPRICE\"," + "\"AVAILABILITYCODE\"," + "\"WEIGHT\"," + "\"SHIPPINGMETHOD\"," + "\"ADDTIONALHANDLING\"," + "\"STRATEGYMAPP\"," + "\"DROPSHIP\"," + "\"EXPECTEDDATE\"" + "\r\n");
                 foreach (ChannelAdvisorModel item in data)
                 {
                     sb.Append("\"" + item.Item_Number + "\", ");
@@ -74,7 +74,8 @@ namespace ChannelAdvisorFeedSender.Functions.Data_Feeds
                     sb.Append("\"" + item.shippingMethod + "\",");
                     sb.Append("\"" + item.xAddtionalHandling + "\",");
                     sb.Append("\"" + item.STRATEGYMAPP + "\",");
-                    sb.Append("\"" + item.DropShip + "\"");
+                    sb.Append("\"" + item.DropShip + "\",");
+                    sb.Append("\"" + item.EXPECTEDDATE + "\"");
                     sb.Append("\r\n");
                 }
 
